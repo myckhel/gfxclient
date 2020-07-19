@@ -1,26 +1,42 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useEffect, useState } from 'react';
+import { Router, Route, Switch, Redirect, useLocation, useRouteMatch, useHistory } from 'react-router-dom';
+import { createBrowserHistory } from "history";
 
-function App() {
+// import { renderRoutes } from 'react-router-config';
+import { Provider } from 'react-redux'
+import './bootstrap';
+import './func/window'
+import './App.scss';
+// import 'bootstrap/dist/css/bootstrap.min.css';
+import './assets/css/animate.min.css';
+import './assets/css/zimed-icon.css';
+import './assets/css/style.css';
+import './assets/css/responsive.css';
+import 'react-notifications/lib/notifications.css';
+
+import ReactDOM from 'react-dom';
+import * as serviceWorker from './serviceWorker';
+
+// Containers
+import {Routes} from './containers/DefaultLayout';
+
+import { Spin } from 'antd';
+require('dotenv').config();
+
+const history = createBrowserHistory();
+
+// const DefaultLayout = React.lazy(() => import('./containers/DefaultLayout'));
+const loading = () => <div className="animated fadeIn pt-3 text-center"><Spin size="lg" color="secondary" /></div>;
+
+export default () => {
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Provider store={window.store}>
+      <Router history={history}>
+        <React.Suspense fallback={loading()}>
+          <Route path="/" component={Routes}/>
+        </React.Suspense>
+      </Router>
+    </Provider>
   );
 }
-
-export default App;

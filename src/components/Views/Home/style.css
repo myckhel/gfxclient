@@ -1,0 +1,16 @@
+.thm-breadcrumb {
+  margin: 0;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  }
+.list-unstyled li {
+margin-left: 6px;
+}
+.thm-breadcrumb li a {
+  color: white;
+  font-weight: 600;
+}
+#page-header-secion {
+  background-image: url(../../../assets/images/background/inner-banner-bg.png);
+}
