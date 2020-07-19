@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 // import {signUp} from '../../../func/async/user'
-import {NotificationContainer} from 'react-notifications';
 
 const Register = () => {
   const [state, setState] = useState({

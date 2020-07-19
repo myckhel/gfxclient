@@ -1,7 +1,7 @@
 // import axios from "axios";
 import {logoutUser} from '../redux/actions'
 
-import { API_URL, CSRF_TOKEN } from "../constants/config";
+const { REACT_APP_API_URL: API_URL, REACT_APP_CSRF_TOKEN: CSRF_TOKEN } = process.env;
 
 const axios = window.axios
 axios.defaults.baseURL = API_URL;

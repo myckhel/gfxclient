@@ -1,8 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
+import dotenv from 'dotenv'
+import envexpand from 'dotenv-expand';
+
 import App from './App';
 import * as serviceWorker from './serviceWorker';
+
+envexpand(dotenv.config())
 
 ReactDOM.render(
   <React.StrictMode>

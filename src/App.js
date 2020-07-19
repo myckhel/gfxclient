@@ -15,13 +15,11 @@ import './assets/css/responsive.css';
 import 'react-notifications/lib/notifications.css';
 
 import ReactDOM from 'react-dom';
-import * as serviceWorker from './serviceWorker';
 
 // Containers
 import {Routes} from './containers/DefaultLayout';
 
 import { Spin } from 'antd';
-require('dotenv').config();
 
 const history = createBrowserHistory();
 
