@@ -1,10 +1,11 @@
 import React, {useState} from 'react';
 
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 
 import {logout} from '../../func/async'
 
 import {logoutUser} from './actions'
+import {selectIsAuth} from './selectors'
 
 export const useLogout = () => {
   const dispatch = useDispatch()
@@ -13,3 +14,5 @@ export const useLogout = () => {
     logout()
   }
 }
+
+export const useIsLoggedIn = () => useSelector(selectIsAuth)

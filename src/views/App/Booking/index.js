@@ -1,13 +1,16 @@
 import React, {memo, useState} from 'react'
 
 import {useMergeState} from '../../../redux/hooks'
+import moment from 'moment'
 
 import './style.css'
 
-import {Input, Form, Select, Row, Typography, Steps, Col, Button, message} from 'antd'
+import { Divider, Space, TimePicker, DatePicker, Input,
+  Form, Select, Row, Typography, Steps, Col, Button,
+  message} from 'antd'
 import { UserOutlined, HomeOutlined, FieldTimeOutlined,  EyeOutlined, MoneyCollectOutlined, LoadingOutlined, SmileOutlined, AccountBookOutlined } from '@ant-design/icons';
 
-const {Title} = Typography
+const {Title, Paragraph} = Typography
 const { Step } = Steps;
 const { Option } = Select;
 
@@ -40,30 +43,33 @@ export default memo(() => {
     ))}
     </Steps>
     <div className="steps-content">
-      {current === 0 ? <BookForm /> :
-      current === 1 ? (
+      {current === 0 ? (
+        <BookForm />
+      ) : current === 1 ? (
         <BookLocation />
+      ) : current === 2 ? (
+        <Schedule />
+      ) : current === 3 ? (
+        <Preview />
       ) : (
         <Title level={4}>Coming Soon</Title>
       )}
     </div>
-    <div className="steps-action">
-      {current < steps.length - 1 && (
-        <Button type="primary" onClick={() => next()}>
-          Next
-        </Button>
-      )}
-      {current === steps.length - 1 && (
-        <Button type="primary" onClick={() => message.success('Processing complete!')}>
-          Done
-        </Button>
-      )}
-      {current > 0 && (
-        <Button style={{ margin: '0 8px' }} onClick={() => prev()}>
-          Previous
-        </Button>
-      )}
-    </div>
+    <Row justify='space-between' align='middle' className="steps-action">
+      <Button
+        disabled={current === 0}
+        onClick={() => prev()}>
+        Previous
+      </Button>
+
+      <Title level={3}>N18,000</Title>
+
+      <Button
+        type="primary"
+        onClick={() => current === steps.length - 1 ? message.success('Processing complete!') : next()}>
+      {current === steps.length - 1 ? 'Done' : 'Next'}
+      </Button>
+    </Row>
   </>)
 })
 
@@ -114,6 +120,47 @@ const BookLocation = () => {
       </Col>
     </div>
   )
+}
+
+const Preview = () => {
+  return (
+    <div>
+      <Title level={3}>Confirm Booking</Title>
+      <Divider orientation="center">Booking Details</Divider>
+      <PLine label='Service Type' value='Regular' />
+      <PLine label='Number Of Rooms' value='1' />
+      <PLine label='Cleaning Interval' value='One Time' />
+      <Divider orientation="center">Location Details</Divider>
+      <PLine label='Address' value='1A City of praize plaza, Akins Bus stop' />
+      <PLine label='City/Town' value='Ajah' />
+      <PLine label='State' value='Lagos' />
+      <Divider orientation="center">Schedule Details</Divider>
+      <PLine label='Date' value='2020-07-22' />
+      <PLine label='Time' value='01:21' />
+    </div>
+  )
+}
+
+const PLine = ({label, value}) => <Paragraph>{label}:  {value}</Paragraph>
+
+const Schedule = () => {
+  const onChange = (date) => console.log({date})
+
+  const disabledDate = current => Date.now() > current
+  const format = 'HH:mm';
+
+  return (<div>
+    <Paragraph>When Should We Come?</Paragraph>
+    <Row align='middle' justify='center'>
+      <Space>
+        <DatePicker disabledDate={disabledDate} onChange={onChange} />
+        <TimePicker
+          defaultValue={moment(moment().add(1, 'hours'), format)}
+          format={format}
+        />
+      </Space>
+    </Row>
+  </div>)
 }
 
 const BookForm = () => {
