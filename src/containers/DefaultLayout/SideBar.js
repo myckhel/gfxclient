@@ -17,7 +17,7 @@ export default memo(() => {
   return (
     <Sider trigger={null} collapsible collapsed={collapsed}>
       <div className="logo" />
-      <Menu theme="dark" mode="inline" defaultSelectedKeys={['1']}>
+      <Menu theme="dark" mode="inline" defaultSelectedKeys={['0']}>
       {navigation.items.map(({name, url, icon}, i) => (
         <Menu.Item key={i+""} icon={icon}>
           <NavLink
