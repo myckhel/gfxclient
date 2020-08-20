@@ -10,8 +10,7 @@ export default ({ }) => {
   const logout = useLogout()
 
   return (
-    <Header>
-      <div className='logo' />
+    <Header className="site-layout-content" style={{ padding: 0 }}>
       <Menu theme='dark' mode='horizontal' defaultSelectedKeys={['2']}>
         <Menu.Item key='1'>A</Menu.Item>
         <Menu.Item key='2'>B</Menu.Item>

@@ -76,49 +76,42 @@ const AuthRoutes = () => {
 
   const loading = () => <div className="animated fadeIn pt-3 text-center"><Spin size="xl" color="secondary" /></div>;
 
-  return (
-    <Layout className='layout'>
-      <Header />
-      <Layout >
+  return (<>
+    <Layout style={{minHeight: '100vh'}}>
       <SideBar />
-      {/*<Sider />*/}
-      <Content className="site-layout-background"
-        style={{
-          margin: '24px 16px',
-          padding: 24,
-          minHeight: 280,
-        }}>
-        <Breadcrumb style={{ margin: '16px 0' }}>
-          <Breadcrumb.Item>Home</Breadcrumb.Item>
-          <Breadcrumb.Item>List</Breadcrumb.Item>
-          <Breadcrumb.Item>App</Breadcrumb.Item>
-        </Breadcrumb>
-        <div className="site-layout-content">
-          <Suspense fallback={Loading({})}>
-            <Switch>
-              {routes.map((route, idx) => {
-                return route.component ? (
-                  <Route
-                    key={idx}
-                    path={route.path}
-                    exact={route.exact}
-                    name={route.name}
-                    render={props => (
-                      <route.component {...props} />
-                    )} />
-                ) : (null);
-              })}
-              <Redirect from={location.path} to="/404" />
-            </Switch>
-          </Suspense>
-        </div>
-      </Content>
-      </Layout >
-      <Footer style={{textAlign: 'center'}}>
-        <DefaultFooter />
-      </Footer>
+      <Layout className="site-layout">
+        <Header />
+          <Content
+            style={{margin: '0 16px'}}>
+            <Breadcrumb style={{ margin: '16px 0' }}>
+              <Breadcrumb.Item>Home</Breadcrumb.Item>
+              <Breadcrumb.Item>List</Breadcrumb.Item>
+              <Breadcrumb.Item>App</Breadcrumb.Item>
+            </Breadcrumb>
+              <Suspense fallback={Loading({})}>
+                <Switch>
+                  {routes.map((route, idx) => {
+                    return route.component ? (
+                      <Route
+                        key={idx}
+                        path={route.path}
+                        exact={route.exact}
+                        name={route.name}
+                        render={props => (
+                          <route.component {...props} />
+                        )} />
+                    ) : (null);
+                  })}
+                  <Redirect from={location.path} to="/404" />
+                </Switch>
+              </Suspense>
+          </Content>
+          <Footer style={{textAlign: 'center'}}>
+            <DefaultFooter />
+          </Footer>
+      </Layout>
     </Layout>
-  );
+  </>);
 }
 
 export const Routes = () => {

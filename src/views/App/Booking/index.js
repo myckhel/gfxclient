@@ -1,16 +1,18 @@
-import React, {memo, useState} from 'react'
+import React, {memo, useState, useEffect} from 'react'
 
 import {useMergeState} from '../../../redux/hooks'
 import moment from 'moment'
+import services from '../../../func/async/service'
 
 import './style.css'
 
 import { Divider, Space, TimePicker, DatePicker, Input,
-  Form, Select, Row, Typography, Steps, Col, Button,
+  Form, Select, Row, Typography, Steps, Col, Button, Spin,
   message} from 'antd'
 import { UserOutlined, HomeOutlined, FieldTimeOutlined,  EyeOutlined, MoneyCollectOutlined, LoadingOutlined, SmileOutlined, AccountBookOutlined } from '@ant-design/icons';
+import { useQuery } from 'react-query'
 
-const {Title, Paragraph} = Typography
+const {Text, Title, Paragraph} = Typography
 const { Step } = Steps;
 const { Option } = Select;
 
@@ -166,39 +168,62 @@ const Schedule = () => {
 const BookForm = () => {
   const rooms = [1,2,3,4,5,6]
 
+  // useEffect(() => {
+  //   // init()
+  // }, [])
+
+  // const init = async () => {
+  //   try {
+  //     const res = await services()
+  //     // console.log(res);
+  //   } catch (e) {
+  //   } finally {
+  //
+  //   }
+  // }
+
+  const {isLoading, error, data, ...r} = useQuery('services', () => services())
+
+  console.log({isLoading, error, data, ...r});
+
   const handleChange = (value) => {
     console.log(`selected ${value}`);
   }
 
+  if (isLoading) {
+    return <Spin size="lg" color="secondary" />
+  }
+
   return (
+    <Form>
     <Row>
-      <Col offset={6} span={8}>
+      <Col offset={6} span={10}>
         <Form.Item
           label="Service Type"
           name="service_type"
           rules={[{ required: true, message: 'Please input your username!' }]}
         >
-          <Select defaultValue="regular" style={{  }} onChange={handleChange}>
-            <Option value="regular">Regular Cleaning</Option>
-            <Option value="deep">Deep Cleaning</Option>
-            <Option value="fumigation">Fumigation</Option>
+          <Select defaultValue={data[0]?.name} style={{  }} onChange={handleChange}>
+            {data?.map(({name, id}) => (
+              <Option key={id+''} value={id}>{name}</Option>
+            ))}
           </Select>
         </Form.Item>
       </Col>
-      <Col offset={6} span={8}>
+      <Col offset={6} span={10}>
         <Form.Item
           label="Amount Of Rooms"
           name="rooms_count"
           rules={[{ required: true, message: 'Please input your username!' }]}
         >
           <Select defaultValue={1} style={{  }} onChange={handleChange}>
-          {rooms.map((count) => (
-            <Option value={count}>{count} Room</Option>
+          {rooms.map((count, i) => (
+            <Option key={''+i} value={count}>{count} Room</Option>
           ))}
           </Select>
         </Form.Item>
       </Col>
-      <Col offset={6} span={8}>
+      <Col offset={6} span={10}>
         <Form.Item
           label="Clean Interval"
           name="clean_interval"
@@ -212,5 +237,6 @@ const BookForm = () => {
         </Form.Item>
       </Col>
     </Row>
+    </Form>
   )
 }
